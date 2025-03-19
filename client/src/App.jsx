@@ -12,6 +12,9 @@ import IsAnon from "./components/IsAnon/IsAnon";
 function App() {
   return (
     <div className="App">
+    <div>
+      
+    </div>
       <Navbar />
 
       <Routes>
