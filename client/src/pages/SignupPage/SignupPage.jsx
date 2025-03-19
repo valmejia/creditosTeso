@@ -34,14 +34,18 @@ function SignupPage() {
     // Or using a service
     authService
       .signup(requestBody)
-      .then((response) => {
+      .then(() => {
         // If the POST request is successful redirect to the login page
         navigate("/login");
       })
       .catch((error) => {
-        // If the request resolves with an error, set the error message in the state
-        const errorDescription = error.response.data.message;
-        setErrorMessage(errorDescription);
+        console.error("Error:", error);  // Log the full error object
+        // Check if the error response and message exist
+        if (error.response && error.response.data && error.response.data.message) {
+          setErrorMessage(error.response.data.message);
+        } else {
+          setErrorMessage("An unexpected error occurred.");
+        }
       });
   };
 
