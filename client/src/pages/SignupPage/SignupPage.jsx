@@ -2,6 +2,10 @@ import "./SignupPage.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/auth.service";
+import * as React from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 
 function SignupPage() {
   const [email, setEmail] = useState("");
@@ -51,30 +55,39 @@ function SignupPage() {
 
   return (
     <div className="SignupPage">
-      <h1>Sign Up</h1>
 
-      <form onSubmit={handleSignupSubmit}>
-        <label>Email:</label>
-        <input type="email" name="email" value={email} onChange={handleEmail} />
+      <React.Fragment>
+            <CssBaseline />
+            <Container fixed>
+            <h1>Sign Up</h1>
 
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={handlePassword}
-        />
+            <form onSubmit={handleSignupSubmit}>
+              <label>Email:</label>
+              <input type="email" name="email" value={email} onChange={handleEmail} />
 
-        <label>Name:</label>
-        <input type="text" name="name" value={name} onChange={handleName} />
+              <label>Password:</label>
+              <input
+                type="password"
+                name="password"
+                value={password}
+                onChange={handlePassword}
+              />
 
-        <button type="submit">Sign Up</button>
-      </form>
+              <label>Name:</label>
+              <input type="text" name="name" value={name} onChange={handleName} />
 
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+              <button type="submit">Sign Up</button>
+            </form>
 
-      <p>Already have account?</p>
-      <Link to={"/login"}> Login</Link>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+            <p>Already have account?</p>
+            <Link to={"/login"}> Login</Link>
+
+              <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }} />
+            </Container>
+          </React.Fragment>
+      
     </div>
   );
 }
