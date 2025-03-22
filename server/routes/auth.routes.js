@@ -5,18 +5,18 @@ const authService = require("../services/auth.services");
 // POST /auth/signup  - Creates a new user in the database
 router.post("/signup", async (req, res) => {
   try {
-    const { email, password, name, role, numeroDeTrabajador, matricula } = req.body;
+    const { email, password, name } = req.body;
 
     // Validation
-    if (!email || !password || !name || role || numeroDeTrabajador || matricula) {
-      return res.status(400).json({ message: "Provide email, password, name, role, numero de trabajador o matricula" });
+    if (!email || !password || !name) {
+      return res.status(400).json({ message: "Provide email, password, and name" });
     }
 
     // Perform signup via service
-    const newUser = await authService.signupUser({ email, password, name,  role, numeroDeTrabajador, matricula});
+    const newUser = await authService.signupUser({ email, password, name });
 
     // Return the user object (excluding password)
-    res.status(201).json({ user: { email: newUser.email, name: newUser.name, role: newUser.role, numeroDeTrabajador: newUser.numeroDeTrabajador, matricula: newUser.matricula} });
+    res.status(201).json({ user: { email: newUser.email, name: newUser.name } });
   } catch (err) {
     console.error(err);
     res.status(500).json({ statusCode: 500, error: "Something went wrong" });
