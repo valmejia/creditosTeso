@@ -1,102 +1,174 @@
-const bcrypt = require("bcrypt"); 
-const jwt = require("jsonwebtoken");
-const { User } = require("../models/userModel"); 
-const authService = require("../services/auth.services");
+const { signupUser, verifyToken, generateAuthToken, loginUser } = require('../services/auth.services'); 
+const { User } = require('../db/index'); 
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-// Mock bcrypt methods explicitly
-jest.mock("bcrypt", () => ({
-  hash: jest.fn(),
-  compare: jest.fn(),
-}));
+jest.mock('../db/index'); 
+jest.mock('jsonwebtoken'); 
+jest.mock('bcrypt');
 
-// Mock the User model
-jest.mock("../models/userModel", () => ({
-  User: {
-    findOne: jest.fn(),
-    create: jest.fn(),
-  },
-}));
+describe('signupUser', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
-beforeAll(() => {
-  process.env.TOKEN_SECRET = "testsecretkey"; // Set a mock secret key for tests
+  it('should throw an error if user already exists', async () => {
+    User.findOne.mockResolvedValueOnce({ email: 'test@example.com' });
+
+    await expect(
+      signupUser({
+        email: 'test@example.com',
+        password: 'password123',
+        name: 'John Doe',
+        role: 'Alumno',
+        matricula: '12345',
+        numeroTrabajador: null,
+      })
+    ).rejects.toThrow('User already exists.');
+  });
+
+  it('should throw an error for invalid role', async () => {
+    User.findOne.mockResolvedValueOnce(null);
+
+    await expect(
+      signupUser({
+        email: 'test@example.com',
+        password: 'password123',
+        name: 'John Doe',
+        role: 'InvalidRole',
+        matricula: '12345',
+        numeroTrabajador: null,
+      })
+    ).rejects.toThrow("Invalid role. Valid roles are: Alumno, Jefatura, Control Escolar, Profesor.");
+  });
+
+  it('should throw an error if matricula is missing for Alumno', async () => {
+    User.findOne.mockResolvedValueOnce(null);
+
+    await expect(
+      signupUser({
+        email: 'test@example.com',
+        password: 'password123',
+        name: 'John Doe',
+        role: 'Alumno',
+        matricula: null,
+        numeroTrabajador: null,
+      })
+    ).rejects.toThrow('Matricula is required for \'Alumno\' role.');
+  });
+
+  it('should throw an error if numero de trabajador is missing for jefatura', async () => {
+    
+    User.findOne.mockResolvedValueOnce(null);
+  
+   
+    await expect(
+      signupUser({
+        email: 'test@example.com',
+        password: 'password123',
+        name: 'John Doe',
+        role: 'Jefatura',
+        matricula: null,  
+        numeroTrabajador: null, 
+      })
+    ).rejects.toThrow("Numero de trabajador is required for 'Profesor' or 'Jefatura', 'Control Escolar' roles.");
+  });
+  
+
+  it('should create a new user successfully', async () => {
+    User.findOne.mockResolvedValueOnce(null); 
+    User.create.mockResolvedValueOnce({
+      id: 1,
+      email: 'test@example.com',
+      name: 'John Doe',
+      role: 'Alumno',
+    });
+
+    const result = await signupUser({
+      email: 'test@example.com',
+      password: 'password123',
+      name: 'John Doe',
+      role: 'Alumno',
+      matricula: '12345',
+      numeroTrabajador: null,
+    });
+
+    expect(result).toHaveProperty('id');
+    expect(result.email).toBe('test@example.com');
+    expect(result.role).toBe('Alumno');
+  });
 });
 
-describe("authService", () => {
+describe('loginUser', () => {
   beforeEach(() => {
-    jest.clearAllMocks(); // Clear mocks before each test
+    jest.clearAllMocks();
   });
 
-  it("should successfully create a new user", async () => {
-    // Mock User.findOne to return null (i.e., no user exists with that email)
-    User.findOne.mockResolvedValue(null); // Simulating no existing user
+  it('should throw an error if user is not found', async () => {
+    User.findOne.mockResolvedValueOnce(null);
 
-    // Mock bcrypt.hash to return a hashed password
-    bcrypt.hash.mockResolvedValue("hashedPassword");
-
-    const userData = { email: "newuser@example.com", password: "password123", name: "New User" };
-
-    // Mock the User.create method to simulate user creation
-    User.create.mockResolvedValue({ id: 1, email: userData.email, name: userData.name });
-
-    const result = await authService.signupUser(userData);
-
-    expect(User.findOne).toHaveBeenCalledWith({ where: { email: userData.email } });
-    expect(User.create).toHaveBeenCalledWith({
-      email: userData.email,
-      password: "hashedPassword", // Password should be hashed
-      name: userData.name,
-    });
-    expect(result).toEqual({ id: 1, email: userData.email, name: userData.name });
+    await expect(loginUser({ email: 'nonexistent@example.com', password: 'password123' }))
+      .rejects
+      .toThrow('User not found.');
   });
 
-  it("should throw an error if the user already exists", async () => {
-    // Mock User.findOne to simulate an existing user
-    User.findOne.mockResolvedValue({ id: 1, email: "existing@example.com", name: "Existing User" });
+  it('should throw an error if password is incorrect', async () => {
+    const user = { email: 'test@example.com', password: 'hashedPassword' };
+    User.findOne.mockResolvedValueOnce(user);
+    bcrypt.compare = jest.fn().mockResolvedValueOnce(false); 
 
-    const userData = { email: "existing@example.com", password: "password123", name: "Existing User" };
-
-    await expect(authService.signupUser(userData)).rejects.toThrow("User already exists.");
+    await expect(
+      loginUser({ email: 'test@example.com', password: 'wrongpassword' })
+    ).rejects.toThrow('Incorrect password.');
   });
 
-  it("should successfully login the user and return a JWT", async () => {
-    const user = { id: 1, email: "user@example.com", password: "hashedPassword", name: "John Doe" };
-
-    // Mock User.findOne to return the user object
-    User.findOne.mockResolvedValue(user);
-
-    // Mock bcrypt.compare to return true (password matches)
-    bcrypt.compare.mockResolvedValue(true);
-
-    // Mock jwt.sign to return a fake JWT
-    jwt.sign = jest.fn().mockReturnValue("fake-jwt-token");
-
-    const result = await authService.loginUser({ email: user.email, password: "password123" });
-
-    expect(User.findOne).toHaveBeenCalledWith({ where: { email: user.email } });
-    expect(bcrypt.compare).toHaveBeenCalledWith("password123", "hashedPassword");
-    expect(result).toBe("fake-jwt-token");
+  it('should return a token if login is successful', async () => {
+    const mockUser = {
+      id: 1,
+      email: 'test@example.com',
+      password: 'hashed_password',
+    };
+  
+    User.findOne.mockResolvedValueOnce(mockUser);
+  
+    const mockComparePassword = jest.fn().mockResolvedValue(true);
+    bcrypt.compare.mockImplementation(mockComparePassword);
+  
+    const mockToken = 'fake.jwt.token';
+    jwt.sign.mockReturnValue(mockToken);
+  
+    const result = await loginUser({ email: 'test@example.com', password: 'password123' });
+  
+    expect(result).toMatch(/^\S+\.\S+\.\S+$/);
+  
+    expect(jwt.sign).toHaveBeenCalledWith(
+      { id: mockUser.id, email: mockUser.email },
+      process.env.TOKEN_SECRET,
+      { expiresIn: '6h' }
+    );
   });
+  
+});
 
-  it("should throw an error if the user is not found during login", async () => {
-    const email = "nonexistent@example.com";
-    const password = "password123";
-
-    // Mock User.findOne to return null (user not found)
-    User.findOne.mockResolvedValue(null);
-
-    await expect(authService.loginUser({ email, password })).rejects.toThrow("User not found.");
+describe('JWT Token Generation and Verification', () => {
+  it('should generate a JWT token', () => {
+    const user = { id: 1, email: 'test@example.com', name: 'John Doe', role: 'Alumno' };
+  
+   
+    jwt.sign.mockReturnValueOnce('mock.jwt.token');
+  
+    const token = generateAuthToken(user);
+  
+   
+    expect(token).toBe('mock.jwt.token');  
+    expect(token).toMatch(/^\S+\.\S+\.\S+$/); 
   });
+  
 
-  it("should throw an error if the password is incorrect", async () => {
-    const user = { id: 1, email: "user@example.com", password: "hashedPassword", name: "John Doe" };
+  it('should throw an error for an invalid JWT token', () => {
+    const token = 'invalid.token';
+    jwt.verify.mockImplementationOnce(() => { throw new Error('Invalid token'); });
 
-    // Mock User.findOne to return the user object
-    User.findOne.mockResolvedValue(user);
-
-    // Mock bcrypt.compare to return false (passwords don't match)
-    bcrypt.compare.mockResolvedValue(false);
-
-    await expect(authService.loginUser({ email: user.email, password: "wrongPassword" }))
-      .rejects.toThrow("Incorrect password.");
+    expect(() => verifyToken(token)).toThrow('Invalid or expired token.');
   });
 });
