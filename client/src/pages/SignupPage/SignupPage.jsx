@@ -12,6 +12,10 @@ import {Person} from '@mui/icons-material';
 import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import * as React from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 
 function SignupPage() {
   const [email, setEmail] = useState("");
@@ -68,10 +72,11 @@ function SignupPage() {
 
   return (
     <div className="SignupPage">
-       <div>
-        <h3>Request Body:</h3>
-      </div>
-      <h1>Sign Up</h1>
+
+      <React.Fragment>
+            <CssBaseline />
+            <Container fixed>
+            <h1>Sign Up</h1>
 
 
       <Container fixed maxWidth= "sm" sx={{ minHeight: '45vh' }} style={{backgroundColor:"rgb(180, 233, 237)", marginTop:'5vh' }}>
@@ -139,7 +144,7 @@ function SignupPage() {
 
       </form>
 
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
 
       <div style={{marginBottom: '1vh'}}></div>
       <Link to={"/login"}> Ya tienes una cuenta?</Link>
