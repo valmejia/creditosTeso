@@ -70,7 +70,6 @@ function SignupPage() {
     <div className="SignupPage">
        <div>
         <h3>Request Body:</h3>
-        <pre>{JSON.stringify({ email, password, name, role, matricula, numeroDeTrabajador }, null, 2)}</pre>
       </div>
       <h1>Sign Up</h1>
 
