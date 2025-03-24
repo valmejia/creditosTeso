@@ -1,6 +1,6 @@
 const sql = require("mssql")
 const { Sequelize } = require("sequelize");
-const userModel = require("../models/userModel");  
+const userModel = require("../models/User.model");  
 require("dotenv").config();
 
 const sequelize = new Sequelize(

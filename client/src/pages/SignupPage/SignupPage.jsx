@@ -2,7 +2,6 @@ import "./SignupPage.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/auth.service";
-import e from "cors";
 
 function SignupPage() {
   const [email, setEmail] = useState("");
@@ -10,7 +9,7 @@ function SignupPage() {
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
   const [matricula, setMatricula] = useState("");
-  const [numeroDeTrabajador, setNumeroDeTrabajador] = useState("");
+  const [numeroTrabajador, setNumeroTrabajador] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
 
   const navigate = useNavigate();
@@ -20,12 +19,12 @@ function SignupPage() {
   const handleName = (e) => setName(e.target.value);
   const handleRole = (e) => setRole(e.target.value);
   const handleMatricula = (e) => setMatricula(e.target.value);
-  const handleNumeroDeTrabajador = (e) => setNumeroDeTrabajador(e.target.value);
+  const handleNumeroTrabajador = (e) => setNumeroTrabajador(e.target.value);
 
   const handleSignupSubmit = (e) => {
     e.preventDefault();
     // Create an object representing the request body
-    const requestBody = { email, password, name, role, matricula, numeroDeTrabajador};
+    const requestBody = { email, password, name, role, matricula, numeroTrabajador};
     
     
     // Send a request to the server using axios
@@ -61,7 +60,7 @@ function SignupPage() {
     <div className="SignupPage">
        <div>
         <h3>Request Body:</h3>
-        <pre>{JSON.stringify({ email, password, name, role, matricula, numeroDeTrabajador }, null, 2)}</pre>
+        <pre>{JSON.stringify({ email, password, name, role, matricula, numeroTrabajador }, null, 2)}</pre>
       </div>
       <h1>Sign Up</h1>
 
@@ -94,7 +93,7 @@ function SignupPage() {
         <input type="text" name="matricula" value={matricula} onChange={handleMatricula} />
 
         <label>Numero de trabajador:</label>
-        <input type="text" name="numeroDeTrabajador" value={numeroDeTrabajador} onChange={handleNumeroDeTrabajador} />
+        <input type="text" name="numeroDeTrabajador" value={numeroTrabajador} onChange={handleNumeroTrabajador} />
 
         <button type="submit">Sign Up</button>
       </form>
