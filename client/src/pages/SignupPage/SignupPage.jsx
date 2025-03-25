@@ -107,10 +107,10 @@ function SignupPage() {
                       type="text" name="role" 
                       value={role} onChange={handleRole}>
                 
-                  <MenuItem value = {role.name}>nombre</MenuItem>
-                  <MenuItem value = {role.profesor}>profesor</MenuItem>
-                  <MenuItem value = {role.jefatura}>jefatura</MenuItem>
-                  <MenuItem value = {role.ControlEscolar}>ControlEscolar</MenuItem>
+                  <MenuItem value = "Alumno">Alumno</MenuItem>
+                  <MenuItem value = "Profesor">Profesor</MenuItem>
+                  <MenuItem value = "Jefatura">Jefatura</MenuItem>
+                  <MenuItem value = "Control Escolar">Control Escolar</MenuItem>
                 </Select>                     
           </FormControl>
         </Container>
