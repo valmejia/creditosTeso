@@ -59,7 +59,7 @@ function LoginPage() {
       style={{backgroundColor:"rgb(180, 233, 237)", marginTop:'5vh' }}>
       <Typography variant="h2" gutterBottom>Inicio de sesión</Typography> 
         
-          <Form onSubmit={handleLoginSubmit}>
+          <form onSubmit={handleLoginSubmit}>
             <EmailIcon sx={{fontSize:70}} color='primary'></EmailIcon>
                 <TextField label="Correo" color="secondary" focused margin='dense' 
                  type="email" name="email" value={email} onChange={handleEmail} />
@@ -75,7 +75,7 @@ function LoginPage() {
                 
 
               
-          </Form>
+          </form>
       
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div></div>
@@ -89,9 +89,11 @@ function LoginPage() {
         </Button>
       
       </Stack> 
-
-      <p>Aun no tienes una cuenta?</p>
-      <Link to={"/signup"}>Crear</Link>
+      <div style={{marginBottom:25}}></div>
+      <Typography variant="h6" gutterBottom>
+        Aun no tienes una cuenta ?
+      </Typography>
+      <Link to={"/signup"}><h2>Crear</h2></Link>
 
     </Container>
     </div>
