@@ -65,18 +65,12 @@ function SignupPage() {
       <Container fixed maxWidth= "sm" sx={{ minHeight: '45vh' }} style={{backgroundColor:"rgb(180, 233, 237)", marginTop:'5vh' }}>
       <Typography variant="h2" gutterBottom>Crear cuenta</Typography> 
      
-      <form onSubmit={handleSignupSubmit}>
+      <Form onSubmit={handleSignupSubmit}>
         <EmailIcon sx={{fontSize:70}} color='primary'></EmailIcon>
         <TextField label="Correo" color="secondary" focused margin='dense' type="email" name="email" value={email} onChange={handleEmail} />
         <div></div>
         <DriveFileRenameOutlineIcon sx={{fontSize:70}}color='primary'></DriveFileRenameOutlineIcon>
-        <TextField label="Nombre" color="secondary" focused margin='dense' type="text" name="name" value={name} onChange={handleName} />
-        <div></div>
-        <DriveFileRenameOutlineIcon sx={{fontSize:70}}color='primary'></DriveFileRenameOutlineIcon>
-        <TextField label="Apellido" color="secondary" focused margin='dense' type="text" name="name" value={name} onChange={handleName} />
-        <div></div>
-        <Person sx={{fontSize:70}}color='primary'></Person>
-        <TextField label="Usuario" color="secondary" focused margin='dense' type="text" name="name" value={name} onChange={handleName} />
+        <TextField label="Nombre completo" color="secondary" focused margin='dense' type="text" name="name" value={name} onChange={handleName} />
         <div></div>
 
         <EnhancedEncryptionIcon sx={{fontSize:70}}color='primary'></EnhancedEncryptionIcon>
@@ -87,13 +81,6 @@ function SignupPage() {
           onChange={handlePassword}
         />
         <div></div>
-        <EnhancedEncryptionIcon sx={{fontSize:70}}color='primary'></EnhancedEncryptionIcon>
-        <TextField label="Confirma contraseña" color="secondary" focused margin='dense'
-          type="password"
-          name="password"
-          value={password}
-          onChange={handlePassword}
-        />
 
         <div>
         <Stack direction="row" spacing={2} style={{marginTop: '3vh', marginBottom: '3vh'}}>
@@ -105,7 +92,7 @@ function SignupPage() {
  </Stack> 
         </div>
         
-      </form>
+      </Form>
 
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 

@@ -1,8 +1,16 @@
 import "./LoginPage.css";
 import { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/auth.context";
 import authService from "../../services/auth.service";
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
+import EmailIcon from '@mui/icons-material/Email';
+import SendIcon from '@mui/icons-material/Send';
+import { Link, useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -46,26 +54,46 @@ function LoginPage() {
 
   return (
     <div className="LoginPage">
-      <h1>Login</h1>
 
-      <form onSubmit={handleLoginSubmit}>
-        <label>Email:</label>
-        <input type="email" name="email" value={email} onChange={handleEmail} />
+    <Container fixed maxWidth= "sm" sx={{ minHeight: '40vh' }} 
+      style={{backgroundColor:"rgb(180, 233, 237)", marginTop:'5vh' }}>
+      <Typography variant="h2" gutterBottom>Inicio de sesión</Typography> 
+        
+          <Form onSubmit={handleLoginSubmit}>
+            <EmailIcon sx={{fontSize:70}} color='primary'></EmailIcon>
+                <TextField label="Correo" color="secondary" focused margin='dense' 
+                 type="email" name="email" value={email} onChange={handleEmail} />
+            <div></div>
+            <EnhancedEncryptionIcon sx={{fontSize:70}}color='primary'></EnhancedEncryptionIcon>
+                  <TextField label="Contraseña" color="secondary" focused margin='dense'
+                    type="password"
+                    name="password"
+                    value={password}
+                    onChange={handlePassword}
+                  />
+            <div></div>
+                
 
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={handlePassword}
-        />
-
-        <button type="submit">Login</button>
-      </form>
+              
+          </Form>
+      
       {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <div></div>
 
-      <p>Don't have an account yet?</p>
-      <Link to={"/signup"}> Sign Up</Link>
+      <Stack direction="row" spacing={2} style={{marginTop:'3vh'}}>
+      <Button variant="contained" endIcon={<SendIcon/>} type="submit">
+        Login
+        </Button>
+        <Button  sx={{ color: 'blue'}}>
+        <Link to={""}> Olvidaste tu contraseña?</Link> 
+        </Button>
+      
+      </Stack> 
+
+      <p>Aun no tienes una cuenta?</p>
+      <Link to={"/signup"}>Crear</Link>
+
+    </Container>
     </div>
   );
 }
