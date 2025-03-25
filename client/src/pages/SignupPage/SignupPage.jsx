@@ -2,6 +2,20 @@ import "./SignupPage.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/auth.service";
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import EmailIcon from '@mui/icons-material/Email';
+import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import * as React from 'react';
+import Container from '@mui/material/Container';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+
 
 function SignupPage() {
   const [email, setEmail] = useState("");
@@ -58,49 +72,71 @@ function SignupPage() {
 
   return (
     <div className="SignupPage">
-       <div>
-        <h3>Request Body:</h3>
-      </div>
-      <h1>Sign Up</h1>
+
+
+
+    <Container fixed maxWidth= "sm" sx={{ minHeight: '45vh' }} style={{backgroundColor:"rgb(180, 233, 237)", marginTop:'5vh' }}>
+      <Typography variant="h2" gutterBottom>Crear cuenta</Typography>
 
       <form onSubmit={handleSignupSubmit}>
-        <label>Email:</label>
-        <input type="email" name="email" value={email} onChange={handleEmail} />
+        <Container>
+          <EmailIcon sx={{fontSize:70}} color='primary'></EmailIcon>
+          <TextField label="Correo" color="secondary" focused margin='dense' type="email" name="email" value={email} onChange={handleEmail} />
+        </Container>
+        <Container>
+          <DriveFileRenameOutlineIcon sx={{fontSize:70}}color='primary'></DriveFileRenameOutlineIcon>
+          <TextField label="Nombre completo" color="secondary" focused margin='dense' type="text" name="name" value={name} onChange={handleName} />
+        </Container>
 
-        <label>Password:</label>
-        <input
+        <EnhancedEncryptionIcon sx={{fontSize:70}}color='primary'></EnhancedEncryptionIcon>
+        <TextField label="Contraseña" color="secondary" focused margin='dense'
           type="password"
           name="password"
           value={password}
           onChange={handlePassword}
         />
-
-        <label>Name:</label>
-        <input type="text" name="name" value={name} onChange={handleName} />
-
-        <label>Role:</label>
-        <select type="text" name="role" value={role} onChange={handleRole}>
-          <optgroup>
-            <option value="Alumno"> Alumno </option>
-            <option value="Profesor"> Profesor </option>
-            <option value="Control Escolar"> Control Escolar </option>
-            <option value="Jefatura"> Jefatura </option>
-          </optgroup>
-        </select>
-
-        <label>Matricula:</label>
-        <input type="text" name="matricula" value={matricula} onChange={handleMatricula} />
-
-        <label>Numero de trabajador:</label>
-        <input type="text" name="numeroDeTrabajador" value={numeroTrabajador} onChange={handleNumeroTrabajador} />
-
-        <button type="submit">Sign Up</button>
+        <Container>
+          <FormControl fullWidth color="secondary" focused margin='dense'>
+            <InputLabel id="role-label">Rol</InputLabel>
+              <Select 
+                      labelId = "role-label"
+                      id ="role"
+                      label = "Rol"
+                      type="text" name="role" 
+                      value={role} onChange={handleRole}>
+                
+                  <MenuItem value = "Alumno">Alumno</MenuItem>
+                  <MenuItem value = "Profesor">Profesor</MenuItem>
+                  <MenuItem value = "Jefatura">Jefatura</MenuItem>
+                  <MenuItem value = "Control Escolar">Control Escolar</MenuItem>
+                </Select>                     
+          </FormControl>
+        </Container>
+        <Container>
+          <DriveFileRenameOutlineIcon sx={{fontSize:70}}color='primary'></DriveFileRenameOutlineIcon>
+          <TextField label="Matricula" color="secondary" focused margin='dense' 
+          type="text" name="matricula" value={matricula} onChange={handleMatricula} />
+        </Container>
+        <Container>
+          <DriveFileRenameOutlineIcon sx={{fontSize:70}}color='primary'></DriveFileRenameOutlineIcon>
+          <TextField label="Numero de trabajador" color="secondary" focused margin='dense' 
+          type="text" name="numeroDeTrabajador" value={numeroTrabajador} onChange={handleNumeroTrabajador} />
+        </Container>
+        <Container>
+          <Stack direction="row" spacing={2} style={{marginTop: '3vh', marginBottom: '3vh'}}>
+            <Button variant="contained" type="submit">
+              Crear
+            </Button>
+          </Stack>
+        </Container>
+        
       </form>
 
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <p>Already have account?</p>
-      <Link to={"/login"}> Login</Link>
+        <Container style={{marginBottom: '1vh'}}></Container>
+         <Link to={"/login"}> Ya tienes una cuenta?</Link>
+    </Container>
     </div>
   );
 }
