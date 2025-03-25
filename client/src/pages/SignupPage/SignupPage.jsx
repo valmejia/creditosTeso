@@ -2,15 +2,15 @@ import "./SignupPage.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/auth.service";
-import { Container } from "@mui/material";
+import { Container} from "@mui/material";
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import EmailIcon from '@mui/icons-material/Email';
-import {Person} from '@mui/icons-material';
 import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+
 
 function SignupPage() {
   const [email, setEmail] = useState("");
@@ -81,6 +81,7 @@ function SignupPage() {
           onChange={handlePassword}
         />
         <div></div>
+        
 
         <div>
         <Stack direction="row" spacing={2} style={{marginTop: '3vh', marginBottom: '3vh'}}>
