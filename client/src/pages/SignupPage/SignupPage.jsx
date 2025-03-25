@@ -73,8 +73,6 @@ function SignupPage() {
   return (
     <div className="SignupPage">
 
-    
-      
 
 
     <Container fixed maxWidth= "sm" sx={{ minHeight: '45vh' }} style={{backgroundColor:"rgb(180, 233, 237)", marginTop:'5vh' }}>
