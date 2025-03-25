@@ -2,6 +2,15 @@ import "./SignupPage.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/auth.service";
+import { Container } from "@mui/material";
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import EmailIcon from '@mui/icons-material/Email';
+import {Person} from '@mui/icons-material';
+import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 function SignupPage() {
   const [email, setEmail] = useState("");
@@ -51,30 +60,58 @@ function SignupPage() {
 
   return (
     <div className="SignupPage">
-      <h1>Sign Up</h1>
 
+      
+      <Container fixed maxWidth= "sm" sx={{ minHeight: '45vh' }} style={{backgroundColor:"rgb(180, 233, 237)", marginTop:'5vh' }}>
+      <Typography variant="h2" gutterBottom>Crear cuenta</Typography> 
+     
       <form onSubmit={handleSignupSubmit}>
-        <label>Email:</label>
-        <input type="email" name="email" value={email} onChange={handleEmail} />
+        <EmailIcon sx={{fontSize:70}} color='primary'></EmailIcon>
+        <TextField label="Correo" color="secondary" focused margin='dense' type="email" name="email" value={email} onChange={handleEmail} />
+        <div></div>
+        <DriveFileRenameOutlineIcon sx={{fontSize:70}}color='primary'></DriveFileRenameOutlineIcon>
+        <TextField label="Nombre" color="secondary" focused margin='dense' type="text" name="name" value={name} onChange={handleName} />
+        <div></div>
+        <DriveFileRenameOutlineIcon sx={{fontSize:70}}color='primary'></DriveFileRenameOutlineIcon>
+        <TextField label="Apellido" color="secondary" focused margin='dense' type="text" name="name" value={name} onChange={handleName} />
+        <div></div>
+        <Person sx={{fontSize:70}}color='primary'></Person>
+        <TextField label="Usuario" color="secondary" focused margin='dense' type="text" name="name" value={name} onChange={handleName} />
+        <div></div>
 
-        <label>Password:</label>
-        <input
+        <EnhancedEncryptionIcon sx={{fontSize:70}}color='primary'></EnhancedEncryptionIcon>
+        <TextField label="Contraseña" color="secondary" focused margin='dense'
+          type="password"
+          name="password"
+          value={password}
+          onChange={handlePassword}
+        />
+        <div></div>
+        <EnhancedEncryptionIcon sx={{fontSize:70}}color='primary'></EnhancedEncryptionIcon>
+        <TextField label="Confirma contraseña" color="secondary" focused margin='dense'
           type="password"
           name="password"
           value={password}
           onChange={handlePassword}
         />
 
-        <label>Name:</label>
-        <input type="text" name="name" value={name} onChange={handleName} />
-
-        <button type="submit">Sign Up</button>
+        <div>
+        <Stack direction="row" spacing={2} style={{marginTop: '3vh', marginBottom: '3vh'}}>
+        <Button variant="contained">
+     Crear
+     </Button>
+     
+   
+ </Stack> 
+        </div>
+        
       </form>
 
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <p>Already have account?</p>
-      <Link to={"/login"}> Login</Link>
+      <div style={{marginBottom: '1vh'}}></div>
+      <Link to={"/login"}> Ya tienes una cuenta?</Link>
+      </Container>
     </div>
   );
 }
