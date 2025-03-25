@@ -77,16 +77,18 @@ function SignupPage() {
       
 
 
-      <Container fixed maxWidth= "sm" sx={{ minHeight: '45vh' }} style={{backgroundColor:"rgb(180, 233, 237)", marginTop:'5vh' }}>
+    <Container fixed maxWidth= "sm" sx={{ minHeight: '45vh' }} style={{backgroundColor:"rgb(180, 233, 237)", marginTop:'5vh' }}>
       <Typography variant="h2" gutterBottom>Crear cuenta</Typography>
 
       <form onSubmit={handleSignupSubmit}>
-        <EmailIcon sx={{fontSize:70}} color='primary'></EmailIcon>
-        <TextField label="Correo" color="secondary" focused margin='dense' type="email" name="email" value={email} onChange={handleEmail} />
-        <div></div>
-        <DriveFileRenameOutlineIcon sx={{fontSize:70}}color='primary'></DriveFileRenameOutlineIcon>
-        <TextField label="Nombre completo" color="secondary" focused margin='dense' type="text" name="name" value={name} onChange={handleName} />
-        <div></div>
+        <Container>
+          <EmailIcon sx={{fontSize:70}} color='primary'></EmailIcon>
+          <TextField label="Correo" color="secondary" focused margin='dense' type="email" name="email" value={email} onChange={handleEmail} />
+        </Container>
+        <Container>
+          <DriveFileRenameOutlineIcon sx={{fontSize:70}}color='primary'></DriveFileRenameOutlineIcon>
+          <TextField label="Nombre completo" color="secondary" focused margin='dense' type="text" name="name" value={name} onChange={handleName} />
+        </Container>
 
         <EnhancedEncryptionIcon sx={{fontSize:70}}color='primary'></EnhancedEncryptionIcon>
         <TextField label="Contraseña" color="secondary" focused margin='dense'
@@ -95,49 +97,48 @@ function SignupPage() {
           value={password}
           onChange={handlePassword}
         />
-        <div></div>
-        
-        <FormControl fullWidth color="secondary" focused margin='dense'>
-        <InputLabel id="role-label">Rol</InputLabel>
-        <Select 
-                labelId = "role-label"
-                id ="role"
-                label = "Rol"
-                type="text" name="role" 
-                value={role} onChange={handleRole}>
-          
-          <MenuItem value = {role.name}>nombre</MenuItem>
-          <MenuItem value = {role.profesor}>profesor</MenuItem>
-          <MenuItem value = {role.jefatura}>jefatura</MenuItem>
-          <MenuItem value = {role.ControlEscolar}>ControlEscolar</MenuItem>
-          </Select>
-       
-        
-        </FormControl>
-        <DriveFileRenameOutlineIcon sx={{fontSize:70}}color='primary'></DriveFileRenameOutlineIcon>
-        <TextField label="Matricula" color="secondary" focused margin='dense' 
-         type="text" name="matricula" value={matricula} onChange={handleMatricula} />
-        <div></div>
-        <DriveFileRenameOutlineIcon sx={{fontSize:70}}color='primary'></DriveFileRenameOutlineIcon>
-        <TextField label="Numero de trabajador" color="secondary" focused margin='dense' 
-        type="text" name="numeroDeTrabajador" value={numeroTrabajador} onChange={handleNumeroTrabajador} />
-        <div>
-        <Stack direction="row" spacing={2} style={{marginTop: '3vh', marginBottom: '3vh'}}>
-        <Button variant="contained" type="submit">
-     Crear
-     </Button>
-
-
- </Stack>
-        </div>
+        <Container>
+          <FormControl fullWidth color="secondary" focused margin='dense'>
+            <InputLabel id="role-label">Rol</InputLabel>
+              <Select 
+                      labelId = "role-label"
+                      id ="role"
+                      label = "Rol"
+                      type="text" name="role" 
+                      value={role} onChange={handleRole}>
+                
+                  <MenuItem value = {role.name}>nombre</MenuItem>
+                  <MenuItem value = {role.profesor}>profesor</MenuItem>
+                  <MenuItem value = {role.jefatura}>jefatura</MenuItem>
+                  <MenuItem value = {role.ControlEscolar}>ControlEscolar</MenuItem>
+                </Select>                     
+          </FormControl>
+        </Container>
+        <Container>
+          <DriveFileRenameOutlineIcon sx={{fontSize:70}}color='primary'></DriveFileRenameOutlineIcon>
+          <TextField label="Matricula" color="secondary" focused margin='dense' 
+          type="text" name="matricula" value={matricula} onChange={handleMatricula} />
+        </Container>
+        <Container>
+          <DriveFileRenameOutlineIcon sx={{fontSize:70}}color='primary'></DriveFileRenameOutlineIcon>
+          <TextField label="Numero de trabajador" color="secondary" focused margin='dense' 
+          type="text" name="numeroDeTrabajador" value={numeroTrabajador} onChange={handleNumeroTrabajador} />
+        </Container>
+        <Container>
+          <Stack direction="row" spacing={2} style={{marginTop: '3vh', marginBottom: '3vh'}}>
+            <Button variant="contained" type="submit">
+              Crear
+            </Button>
+          </Stack>
+        </Container>
         
       </form>
 
             {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <div style={{marginBottom: '1vh'}}></div>
-      <Link to={"/login"}> Ya tienes una cuenta?</Link>
-      </Container>
+        <Container style={{marginBottom: '1vh'}}></Container>
+         <Link to={"/login"}> Ya tienes una cuenta?</Link>
+    </Container>
     </div>
   );
 }

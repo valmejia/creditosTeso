@@ -58,12 +58,14 @@ function LoginPage() {
     <Container fixed maxWidth= "sm" sx={{ minHeight: '40vh' }} 
       style={{backgroundColor:"rgb(180, 233, 237)", marginTop:'5vh' }}>
       <Typography variant="h2" gutterBottom>Inicio de sesión</Typography> 
-        
+            
           <form onSubmit={handleLoginSubmit}>
+            <Container>
             <EmailIcon sx={{fontSize:70}} color='primary'></EmailIcon>
                 <TextField label="Correo" color="secondary" focused margin='dense' 
                  type="email" name="email" value={email} onChange={handleEmail} />
-            <div></div>
+            </Container>
+            <Container>
             <EnhancedEncryptionIcon sx={{fontSize:70}}color='primary'></EnhancedEncryptionIcon>
                   <TextField label="Contraseña" color="secondary" focused margin='dense'
                     type="password"
@@ -71,30 +73,30 @@ function LoginPage() {
                     value={password}
                     onChange={handlePassword}
                   />
-            <div></div>
+            </Container>
                 
 
               
           </form>
       
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <div></div>
-
-      <Stack direction="row" spacing={2} style={{marginTop:'3vh'}}>
-      <Button variant="contained" endIcon={<SendIcon/>} type="submit">
-        Login
-        </Button>
-        <Button  sx={{ color: 'blue'}}>
-        <Link to={""}> Olvidaste tu contraseña?</Link> 
-        </Button>
       
-      </Stack> 
-      <div style={{marginBottom:25}}></div>
-      <Typography variant="h6" gutterBottom>
-        Aun no tienes una cuenta ?
-      </Typography>
-      <Link to={"/signup"}><h2>Crear</h2></Link>
-
+      <Container>
+        <Stack direction="row" spacing={2} style={{marginTop:'3vh'}}>
+          <Button variant="contained" endIcon={<SendIcon/>} type="submit">
+            Login
+          </Button>
+          <Button  sx={{ color: 'blue'}}>
+            <Link to={""}> Olvidaste tu contraseña?</Link> 
+          </Button>
+          
+        </Stack> 
+        <Container style={{marginBottom:25}}></Container>
+          <Typography variant="h6" gutterBottom>
+            Aun no tienes una cuenta ?
+          </Typography>
+        <Link to={"/signup"}><h2>Crear</h2></Link>
+      </Container>
     </Container>
     </div>
   );
