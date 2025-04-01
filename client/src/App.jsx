@@ -9,6 +9,8 @@ import Navbar from "./components/Navbar/Navbar";
 import IsPrivate from "./components/IsPrivate/IsPrivate";
 import IsAnon from "./components/IsAnon/IsAnon";
 
+import RequisitosPage from "./pages/requisitospage/requisitospage";
+
 function App() {
   return (
     <div className="App">
@@ -41,6 +43,14 @@ function App() {
               <LoginPage />
             </IsAnon>
           }
+        />
+        <Route 
+        path="/requisitos" 
+        element={
+          <IsAnon>
+            <RequisitosPage />
+          </IsAnon>
+        }
         />
       </Routes>
     </div>
